@@ -27,7 +27,5 @@
   (setv options (.parse-args parser))
   (build (get options.file 0) options.shared))
 
-(main)
-
 
 
