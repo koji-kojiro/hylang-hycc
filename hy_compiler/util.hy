@@ -1,8 +1,8 @@
 (import sys)
 (import argparse)
-(import [compiler [build]])
+(import [core.build [build]])
 
-(defn main []
+(defn hy-compiler-main []
   (setv parser (argparse.ArgumentParser
                 :usage "%(prog)s [options] file"
                 :add_help False))
@@ -26,6 +26,5 @@
   
   (setv options (.parse-args parser))
   (build (get options.file 0) options.shared))
-
 
 
