@@ -38,7 +38,7 @@
                           (print-and-exit (.format "compile error: {}" module))))))
     (shutil.copy exe-filepath (os.path.join (os.path.dirname module)
                                             (os.path.basename exe-filepath))))
-   (except [] pass)
+   (except [] None)
    (finally (shutil.rmtree temp-dir))))
 
           
