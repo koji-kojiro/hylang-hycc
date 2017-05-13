@@ -1,6 +1,6 @@
 (import sys)
 (import argparse)
-(import [core.build [build]])
+(import [hy-compiler.core.build [build]])
 
 (defn hy-compiler-main []
   (setv parser (argparse.ArgumentParser
@@ -26,5 +26,3 @@
   
   (setv options (.parse-args parser))
   (build (get options.file 0) options.shared))
-
-
