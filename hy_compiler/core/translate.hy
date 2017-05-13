@@ -40,9 +40,9 @@
 (defn fix-dot-access [node]
   (if (isinstance node ast.Assign)
     (do
-     (fix-dot-access (get node.targets 0))
-     (if (isinstance (get node.targets 0) ast.Assign)
-       (setv node.value (attr-to-call (get node.targets 0) node.value)
+     (fix-dot-access (first node.targets))
+     (if (isinstance (first node.targets) ast.Assign)
+       (setv node.value (attr-to-call (first node.targets) node.value)
              node.targets "_")))
     (for [[item field] (iter-node node)]
       (fix-dot-access item)
