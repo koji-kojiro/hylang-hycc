@@ -3,11 +3,13 @@
         [Cython.Build.BuildExecutable [build :as cython-build]]
         [translate [to-python]])
 
-(defn print-and-exit [msg &optional [status 1]]
-  (print msg)
-  (sys.exit status))
+(defn print-and-exit [msg]
+  (print "error:" msg)
+  (sys.exit))
 
 (defn build [module &optional [shared False]]
+  (if-not (os.path.exists module)
+          (print-and-exit (.format "file does not exist: {}" module)))
   (try
    (setv pysrc (to-python module))
    (except [] (print-and-exit (.format "cannot convert to python: {}" module))))
