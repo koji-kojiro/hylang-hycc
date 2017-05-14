@@ -40,6 +40,3 @@
                                             (os.path.basename exe-filepath))))
    (except [] None)
    (finally (shutil.rmtree temp-dir))))
-
-          
-   

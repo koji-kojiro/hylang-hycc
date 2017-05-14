@@ -23,6 +23,6 @@
                  "--help"
                  :action "help"
                  :help "show this help and exit")
-  
+
   (setv options (.parse-args parser))
   (build (get options.file 0) options.shared))
