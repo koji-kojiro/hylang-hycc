@@ -1,5 +1,0 @@
-#! /usr/bin/env hy
-(import [hy-compiler.util [hy-compiler-main :as main]])
-
-(defmain [&rest args]
-  (main))
