@@ -28,10 +28,10 @@
           (try
            (setv exe-filepath
                  (if shared
-                   (do (cythonize-main [py-filepath "--build" "--inplace"])
+                   (do (cythonize-main [(str py-filepath) (str "--inplace") (str "--quiet")])
                        (last (sorted (list-comp (os.path.join temp-dir x)
                                                 [x (os.listdir temp-dir)])
-                                     :key os.path.gettime)))
+                                     :key os.path.getatime)))
                    (cython-build py-filepath)))
            (except [] (do (setv sys.stderr stderr
                                 sys.stdout stdout)
