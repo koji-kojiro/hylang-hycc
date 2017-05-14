@@ -5,6 +5,9 @@ import atexit
 from setuptools import setup
 from setuptools.command.install import install
 
+from sys import version_info
+ver = version_info[0]
+
 
 class install_with_compile_hy(install):
     def __init__(self, *args, **kwargs):
@@ -14,11 +17,13 @@ class install_with_compile_hy(install):
     def _compile_hy(self):
         import hy
         import hy_compiler.util
-        import hy_compiler.core
+        import hy_compiler.core.build
+        import hy_compiler.core.translate
 
         print("hy version: {}".format(hy.__version__))
         print("compiled: {}".format(hy_compiler.util.__file__))
-        print("compiled: {}".format(hy_compiler.core.__file__))
+        print("compiled: {}".format(hy_compiler.core.build.__file__))
+        print("compiled: {}".format(hy_compiler.core.translate.__file__))
 
 
 config = {
@@ -43,8 +48,12 @@ config = {
         'hy_compiler': ['*.hy'],
         'hy_compiler.core': ['*.hy'],
     },
-    'entry_points':
-    '[console_scripts]\nhy-compiler=hy_compiler.util:hy_compiler_main',
+    'entry_points': {
+        'console_scripts': [
+            'hy-compiler=hy_compiler.util:hy_compiler_main',
+            'hy-compiler%s=hy_compiler.util:hy_compiler_main' % ver,
+        ]
+    },
     'cmdclass': {
         'install': install_with_compile_hy
     },
