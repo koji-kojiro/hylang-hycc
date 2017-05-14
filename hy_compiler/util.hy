@@ -1,6 +1,6 @@
-(import sys)
-(import argparse)
-(import [hy-compiler.core.build [build]])
+(import sys argparse
+        [hy-compiler [--version--]]
+        [hy-compiler.core.build [build]])
 
 (defn hy-compiler-main []
   (setv parser (argparse.ArgumentParser
@@ -18,14 +18,15 @@
                  :help "create a shared library")
   (.add_argument parser
                  "--version"
-                 :action "version")
+                 :action "version"
+                 :version --version--)
   (.add_argument parser
                  "--help"
                  :action "help"
                  :help "show this help and exit")
 
   (setv options (.parse-args parser))
-  
+
   (for [module options.module]
     (print (.format "compiling...: {}" module))
     (build module options.shared)))
