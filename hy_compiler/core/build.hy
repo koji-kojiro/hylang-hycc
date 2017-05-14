@@ -1,7 +1,7 @@
 (import os sys shutil tempfile
         [Cython.Build.Cythonize [main :as cythonize-main]]
         [Cython.Build.BuildExecutable [build :as cython-build]]
-        [translate [to-python]])
+        [hy-compiler.core.translate [to-python]])
 
 (defn print-and-exit [msg]
   (print "error:" msg)
