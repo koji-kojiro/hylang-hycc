@@ -4,13 +4,13 @@
 
 (defn hy-compiler-main []
   (setv parser (argparse.ArgumentParser
-                :usage "%(prog)s [options] file"
+                :usage "%(prog)s [options] module..."
                 :add_help False))
   (setv parser._optionals.title "options")
 
   (.add_argument parser
-                 "file"
-                 :nargs 1
+                 "module"
+                 :nargs "+"
                  :help argparse.SUPPRESS)
   (.add_argument parser
                  "--shared"
@@ -25,4 +25,7 @@
                  :help "show this help and exit")
 
   (setv options (.parse-args parser))
-  (build (get options.file 0) options.shared))
+  
+  (for [module options.module]
+    (print (.format "compiling...: {}" module))
+    (build module options.shared)))

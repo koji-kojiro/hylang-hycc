@@ -32,7 +32,9 @@
                        (last (sorted (list-comp (os.path.join temp-dir x)
                                                 [x (os.listdir temp-dir)])
                                      :key os.path.getatime)))
-                   (cython-build py-filepath)))
+                   (cython-build py-filepath))
+                 sys.stderr stderr
+                 sys.stdout stdout)
            (except [] (do (setv sys.stderr stderr
                                 sys.stdout stdout)
                           (print-and-exit (.format "compile error: {}" module))))))
