@@ -13,9 +13,22 @@
                  :nargs "+"
                  :help argparse.SUPPRESS)
   (.add_argument parser
+                 "-o"
+                 :nargs "+"
+                 :metavar "file"
+                 :help "place the output into [file]")
+  (.add_argument parser
+                 "--with-c"
+                 :action "store_true"
+                 :help "generate c code")
+  (.add_argument parser
+                 "--with-python"
+                 :action "store_true"
+                 :help "generate python code")
+  (.add_argument parser
                  "--shared"
                  :action "store_true"
-                 :help "create a shared library")
+                 :help "create shared library")
   (.add_argument parser
                  "--version"
                  :action "version"
@@ -26,7 +39,6 @@
                  :help "show this help and exit")
 
   (setv options (.parse-args parser))
-
   (for [module options.module]
-    (print (.format "compiling...: {}" module))
-    (build module options.shared)))
+    (build module (if options.o (.pop options.o 0))
+           options.shared options.with-c options.with-python)))
