@@ -1,9 +1,10 @@
 # WIP; USE AT YOUR OWN RISK
 # HyCC
-**HyCC** is a static compiler for **Hy programming language**, can create shared libraries and standalone executables from Hy source files.
-The input source file is once translated to C and then compiled to machine code. You may also get the generated C source code and compile it mannually with any C/C++ compilers.
+**HyCC** is a static compiler for [**Hy**](https://github.com/hylang/hy), can create shared libraries and standalone executables from Hy source files.  
+The input source file is once translated to C and then compiled to machine code.  
+You may also get the generated C source code and compile it mannually with any C/C++ compilers.
 
-One of the recommended uses is to compile a Hy module and create a shared library in order to improve its performance.
+One of the recommended uses is to compile a Hy module and create a shared library in order to improve its performance.  
 In most cases, the compiled module runs much faster than Hy as well as Python, so we can say that `hycc` replaces `hyc` completely.
 
 ## Requirements
@@ -17,20 +18,22 @@ $ pip install hycc
 
 ## Usage
 ```
+$ hycc --help
 usage: hycc [options] module...
 
 options:
-  -o file [file ...]  place the output into [file]
-  --with-c            generate c code
-  --with-python       generate python code
-  --shared            create shared library
-  --version           show program's version number and exit
-  --help              show this help and exit
+  -o <file>      place the output into <file>
+  --with-c       generate c code
+  --with-python  generate python code
+  --shared       create shared library
+  --version      show program's version number and exit
+  --help         show this help and exit
+
 ```
 ## Example
 - hello.hy
 
-```clj:
+```clj
 (defn hello []
   (print "hello"))
 
@@ -51,13 +54,13 @@ $ hycc hello.hy --shared
 ```
 You can import this from Hy as well as Python.
 
-```clj:
+```clj
 (import hello)
 (hello.hello)
 ; > hello
 ```
 
-```python:
+```py
 import hello
 hello()
 # > hello
