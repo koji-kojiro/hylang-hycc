@@ -68,8 +68,7 @@
         (.write fp pysrc))
 
   (setv build-func (if shared build-shared-library build-executable)
-        bin-filepath (do-quiet build-func py-filepath)
-        )
+        bin-filepath (do-quiet build-func py-filepath))
 
   (if with-python
     (mkcopy dest-dir py-filepath))
