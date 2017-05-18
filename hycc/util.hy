@@ -1,8 +1,8 @@
 (import sys argparse
-        [hy-compiler [--version--]]
-        [hy-compiler.core.build [build]])
+        [hycc [--version--]]
+        [hycc.core.build [build]])
 
-(defn hy-compiler-main []
+(defn hycc-main []
   (setv parser (argparse.ArgumentParser
                 :usage "%(prog)s [options] module..."
                 :add_help False))

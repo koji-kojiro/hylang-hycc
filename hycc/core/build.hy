@@ -3,7 +3,7 @@
         [shutil [copy rmtree]]
         [Cython.Build.Cythonize [main :as cythonize-main]]
         [Cython.Build.BuildExecutable [build :as cython-build]]
-        [hy-compiler.core.translate [to-python]])
+        [hycc.core.translate [to-python]])
 
 (defn print-and-exit [msg]
   (print "error:" msg)

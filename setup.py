@@ -21,12 +21,11 @@ class install(_install):
     def _compile_hy(self):
         import os
         import hy
-        import hy_compiler
+        import hycc
 
         print("hy version: {}".format(hy.__version__))
 
-        for dirname, _, filenames in os.walk(
-                os.path.dirname(hy_compiler.__file__)):
+        for dirname, _, filenames in os.walk(os.path.dirname(hycc.__file__)):
             for filename in filenames:
                 if filename.endswith('.hy'):
                     print('compiling: {}'.format(filename))
@@ -35,7 +34,7 @@ class install(_install):
 
 
 config = {
-    'name': 'hy-compiler',
+    'name': 'hycc',
     'author': 'koji-kojiro',
     'author_email': 'kojiro0531@gmail.com',
     'url': '',
@@ -51,15 +50,15 @@ config = {
         "License :: OSI Approved :: MIT License",
         "Development Status :: 1 - Planning",
     ],
-    'packages': ['hy_compiler', 'hy_compiler.core'],
+    'packages': ['hycc', 'hycc.core'],
     'package_data': {
-        'hy_compiler': ['*.hy'],
-        'hy_compiler.core': ['*.hy'],
+        'hycc': ['*.hy'],
+        'hycc.core': ['*.hy'],
     },
     'entry_points': {
         'console_scripts': [
-            'hy-compiler=hy_compiler.util:hy_compiler_main',
-            'hy-compiler%d=hy_compiler.util:hy_compiler_main' % ver,
+            'hycc=hycc.util:hycc_main',
+            'hycc%d=hycc.util:hycc_main' % ver,
         ]
     },
     'cmdclass': {
