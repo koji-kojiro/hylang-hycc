@@ -43,7 +43,7 @@ options:
 
 ### Create an executable file
 ```
-$ hycoc hello.hy
+$ hycc hello.hy
 $ ./hello
 hello
 ```
@@ -67,7 +67,7 @@ hello()
 ```
 
 ## License
-HyCC is destributed under [MIT license](LICENSE).
+HyCC is distributed under [MIT license](LICENSE).
 
 ## Author
 [TANI Kojiro](https://github.com/koji-kojiro) (kojiro0531@gmail.com)
