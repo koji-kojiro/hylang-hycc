@@ -1,23 +1,7 @@
 (import sys argparse
         [hycc [--version--]]
         [hycc.core.build [build]])
-"
-    def _format_action_invocation(self, action):
-        if not action.option_strings:
-            metavar, = self._metavar_formatter(action, action.dest)(1)
-            return metavar
-        else:
-            parts = []
-            if action.nargs == 0:
-                parts.extend(action.option_strings)
-            else:
-                default = action.dest.upper()
-                args_string = self._format_args(action, default)
-                for option_string in action.option_strings:
-                    parts.append(option_string)
-                parts[-1] += '={}'.format(args_string)
-            return ', '.join(parts)
-"
+
 (defclass Formatter [argparse.RawTextHelpFormatter]
   (defn -format-args [self action default-metavar]
     (setv get-metavar (.-metavar-formatter self action default-metavar))
