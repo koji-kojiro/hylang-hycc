@@ -58,6 +58,7 @@ config = {
         "License :: OSI Approved :: MIT License",
         "Development Status :: 1 - Planning",
     ],
+    'py_modules': ['activate_hycc'],
     'packages': ['hycc', 'hycc.core'],
     'package_data': {
         'hycc': ['*.hy'],
@@ -67,6 +68,8 @@ config = {
         'console_scripts': [
             'hycc=hycc.util:hycc_main',
             'hycc%d=hycc.util:hycc_main' % ver,
+            'activate-hycc=activate-hycc:main',
+            'activate-hycc%d=activate-hycc:main' % ver,
         ]
     },
     'cmdclass': {
