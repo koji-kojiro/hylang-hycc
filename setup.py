@@ -68,8 +68,8 @@ config = {
         'console_scripts': [
             'hycc=hycc.util:hycc_main',
             'hycc%d=hycc.util:hycc_main' % ver,
-            'activate-hycc=activate-hycc:main',
-            'activate-hycc%d=activate-hycc:main' % ver,
+            'activate-hycc=activate_hycc:main',
+            'activate-hycc%d=activate_hycc:main' % ver,
         ]
     },
     'cmdclass': {
