@@ -1,5 +1,8 @@
 # WIP; USE AT YOUR OWN RISK
 # HyCC
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/koji-kojiro/hylang-hycc/blob/master/LICENSE)
+[![python](https://img.shields.io/badge/python-2.6%2B%2C%203.3%2B-red.svg)](https://pypi.python.org/pypi/hycc)
+[![PyPI](https://img.shields.io/pypi/v/hycc.svg)](https://pypi.python.org/pypi/hycc)
 **HyCC** is a static compiler for [**Hy**](https://github.com/hylang/hy), can create shared libraries and standalone executables from Hy source files.
 The input source file is once translated to C and then compiled to machine code.
 You may also get the generated C source code and compile it mannually with any C/C++ compilers.
