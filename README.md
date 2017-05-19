@@ -1,10 +1,10 @@
 # WIP; USE AT YOUR OWN RISK
 # HyCC
-**HyCC** is a static compiler for [**Hy**](https://github.com/hylang/hy), can create shared libraries and standalone executables from Hy source files.  
-The input source file is once translated to C and then compiled to machine code.  
+**HyCC** is a static compiler for [**Hy**](https://github.com/hylang/hy), can create shared libraries and standalone executables from Hy source files.
+The input source file is once translated to C and then compiled to machine code.
 You may also get the generated C source code and compile it mannually with any C/C++ compilers.
 
-One of the recommended uses is to compile a Hy module and create a shared library in order to improve its performance.  
+One of the recommended uses is to compile a Hy module and create a shared library in order to improve its performance.
 In most cases, the compiled module runs much faster than Hy as well as Python, so we can say that `hycc` replaces `hyc` completely.
 
 ## Requirements
@@ -14,6 +14,7 @@ In most cases, the compiled module runs much faster than Hy as well as Python, s
 ## Installation
 ```
 $ pip install hycc
+$ activate-hycc
 ```
 
 ## Usage
