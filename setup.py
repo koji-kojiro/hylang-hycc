@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup
 from sys import version_info
+from hycc import __version__
 
 ver = version_info[0]
 
@@ -13,7 +14,7 @@ config = {
     'description': 'HyCC - A static compiler for Hy',
     'long_description': 'HyCC - A static compiler for Hy',
     'license': 'MIT',
-    'version': '0.0.2',
+    'version': __version__,
     'install_requires': ['Cython>=0.25.2', 'hy>=0.12.1'],
     'classifiers': [
         "Intended Audience :: Developers",
