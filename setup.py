@@ -1,37 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from __future__ import print_function
 from setuptools import setup
-from setuptools.command.install import _install
-
 from sys import version_info
+
 ver = version_info[0]
-
-
-class install(_install):
-    def __init__(self, *args, **kwargs):
-        import pip
-        import atexit
-
-        pip.main("install git+https://github.com/hylang/hy".split())
-
-        _install.__init__(self, *args, **kwargs)
-        atexit.register(self._compile_hy)
-
-    def _compile_hy(self):
-        import os
-        import hy
-        import hycc
-
-        print("hy version: {}".format(hy.__version__))
-
-        for dirname, _, filenames in os.walk(os.path.dirname(hycc.__file__)):
-            for filename in filenames:
-                if filename.endswith('.hy'):
-                    print('compiling: {}'.format(filename))
-                    hy.importer.write_hy_as_pyc(
-                        os.path.join(dirname, filename))
-
 
 config = {
     'name': 'hycc',
@@ -68,12 +40,7 @@ config = {
         'console_scripts': [
             'hycc=hycc.util:hycc_main',
             'hycc%d=hycc.util:hycc_main' % ver,
-            'activate-hycc=activate_hycc:main',
-            'activate-hycc%d=activate_hycc:main' % ver,
         ]
-    },
-    'cmdclass': {
-        'install': install
     },
 }
 
