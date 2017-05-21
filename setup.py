@@ -38,8 +38,8 @@ config = {
     },
     'entry_points': {
         'console_scripts': [
-            'hycc=hycc:_main',
-            'hycc%d=hycc:_main' % ver,
+            'hycc=hycc.util:hycc_main',
+            'hycc%d=hycc.util:hycc_main' % ver,
         ]
     },
 }
