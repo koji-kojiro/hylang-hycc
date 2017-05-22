@@ -43,6 +43,7 @@ config = {
             'hycc%d=hycc.util:hycc_main' % ver,
         ]
     },
+    'test_suite': 'nose.collector',
 }
 
 if __name__ == '__main__':
