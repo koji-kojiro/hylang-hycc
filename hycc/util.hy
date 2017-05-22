@@ -7,7 +7,7 @@
     (setv get-metavar (.-metavar-formatter self action default-metavar))
     (.format "<{0:s}>" (first (get-metavar 1)))))
 
-(defn hycc-main []
+(defn hycc-main [&optional [argv sys.argv]]
   (setv parser (argparse.ArgumentParser
                 :usage "%(prog)s [options] module..."
                 :add_help False
@@ -45,7 +45,7 @@
                  :action "help"
                  :help "show this help and exit")
 
-  (setv options (.parse-args parser))
+  (setv options (.parse-args parser argv))
   (for [module options.module]
     (build module (if options.o (.pop options.o 0))
            options.shared options.with-c options.with-python)))
