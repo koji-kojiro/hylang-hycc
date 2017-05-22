@@ -48,7 +48,7 @@
                  :help "show this help and exit")
 
   (setv options (.parse-args parser argv))
-  (if (= (len options.module))
+  (if (= (len options.module) 0)
           (do (parser.print_usage) (exit)))
   (for [module options.module]
     (build module (if options.o (.pop options.o 0))
