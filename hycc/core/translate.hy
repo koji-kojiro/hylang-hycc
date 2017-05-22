@@ -1,5 +1,4 @@
 (import re ast
-        [hy._compat [PY3]]
         [hy.importer [import-buffer-to-ast]]
         [astor [iter-node]]
         [astor.codegen [to-source]])
@@ -61,8 +60,7 @@
           [(isinstance item ast.alias) (setv item.name (mangle item.name))])))
 
 (defn add-imports [src]
-  (+ (if-not PY3 "from __future__ import print_function\n" "")
-     "import hy\n" src))
+  (+ "from __future__ import print_function\nimport hy\n" src))
 
 
 (defn to-python [filepath]
