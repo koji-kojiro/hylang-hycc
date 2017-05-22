@@ -5,7 +5,9 @@
 (defclass Formatter [argparse.RawTextHelpFormatter]
   (defn -format-args [self action default-metavar]
     (setv get-metavar (.-metavar-formatter self action default-metavar))
-    (.format "<{0:s}>" (first (get-metavar 1)))))
+    (try
+     (.format "<{0:s}>" (first (get-metavar 1)))
+    (except [] ""))))
 
 (defn hycc-main [&optional [argv sys.argv]]
   (setv parser (argparse.ArgumentParser
@@ -46,6 +48,8 @@
                  :help "show this help and exit")
 
   (setv options (.parse-args parser argv))
+  (if (= (len options.module))
+          (do (parser.print_usage) (exit)))
   (for [module options.module]
     (build module (if options.o (.pop options.o 0))
            options.shared options.with-c options.with-python)))
