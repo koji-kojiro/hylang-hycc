@@ -6,7 +6,11 @@ from hycc.util import hycc_main
 def clean():
     for path in os.listdir("tests/resources"):
         if path not in ["hello.hy", "__init__.py"]:
-            os.remove(os.path.join("tests/resources", path))
+            path = os.path.join("tests/resources", path)
+            if os.path.isdir(path):
+                os.rmdir(path)
+            else:
+                os.remove(path)
 
 
 def test_build_executable():
