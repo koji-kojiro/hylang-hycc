@@ -9,7 +9,7 @@
      (.format "<{0:s}>" (first (get-metavar 1)))
     (except [] ""))))
 
-(defn hycc-main [&optional [argv (cdr sys.argv)]]
+(defn hycc-main [&optional [argv (rest sys.argv)]]
   (setv parser (argparse.ArgumentParser
                 :usage "%(prog)s [options] module..."
                 :add_help False
