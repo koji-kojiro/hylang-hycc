@@ -31,7 +31,6 @@ config = {
         "License :: OSI Approved :: MIT License",
         "Development Status :: 1 - Planning",
     ],
-    'py_modules': ['activate_hycc'],
     'packages': ['hycc', 'hycc.core'],
     'package_data': {
         'hycc': ['*.hy'],
