@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import shutil
 from hycc.util import hycc_main
 
 
@@ -8,7 +9,7 @@ def clean():
         if path not in ["hello.hy", "__init__.py"]:
             path = os.path.join("tests/resources", path)
             if os.path.isdir(path):
-                os.rmdir(path)
+                shutil.rmtree(path)
             else:
                 os.remove(path)
 
