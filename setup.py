@@ -13,7 +13,7 @@ config = {
     'description': 'HyCC - A static compiler for Hy',
     'long_description': 'HyCC - A static compiler for Hy',
     'license': 'MIT',
-    'version': '0.0.3',
+    'version': '0.0.4',
     'install_requires': ['Cython>=0.25.2', 'hy>=0.12.1'],
     'classifiers': [
         "Intended Audience :: Developers",
