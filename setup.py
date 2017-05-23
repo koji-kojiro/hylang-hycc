@@ -16,6 +16,8 @@ config = {
     'version': '0.0.4',
     'install_requires': ['Cython>=0.25.2', 'hy>=0.12.1'],
     'classifiers': [
+        "Operating System :: POSIX",
+        "Operating System :: MacOS",
         "Intended Audience :: Developers",
         "Programming Language :: Lisp",
         "Programming Language :: Python",
@@ -28,7 +30,7 @@ config = {
         "Topic :: Software Development :: Code Generators",
         "Topic :: Software Development :: Compilers",
         "License :: OSI Approved :: MIT License",
-        "Development Status :: 1 - Planning",
+        "Development Status :: 3 - alpha",
     ],
     'packages': ['hycc', 'hycc.core'],
     'package_data': {
