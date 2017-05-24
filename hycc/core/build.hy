@@ -40,19 +40,19 @@
 (defn mkcopy [module-dir filepath]
   (setv dest-filepath (os.path.join module-dir (os.path.basename filepath)))
   (copy filepath dest-filepath)
-  (print (.format "-> {}" dest-filepath)))
+  (print (+ "-> " dest-filepath)))
 
 (defn build [module &optional [output None]
                               [shared? False]
                               [clang? False]
                               [python? False]]
 
-  (print (.format "compiling: {}" module))
+  (print (+ "compiling: " module))
   (if-not (os.path.exists module)
-          (print-and-exit (.format "file does not exist: {}" module)))
+          (print-and-exit (+ "file does not exist: " module)))
   (setv ext (last (os.path.splitext module)))
   (if-not (= ext  ".hy")
-          (print-and-exit (.format "invalid file type: {}" ext)))
+          (print-and-exit (+ "invalid file type: " ext)))
 
   (setv temp-dir (mkdtemp))
 
@@ -74,7 +74,7 @@
    (except []
      (do
       (rmtree temp-dir)
-      (print-and-exit (.format "cannot convert to python: {}" module)))))
+      (print-and-exit (+ "cannot convert to python: " module)))))
 
   (try
    (do
@@ -90,5 +90,5 @@
        (if clang?
          (mkcopy dest-dir c-filepath)
          (mkcopy dest-dir bin-filepath)))))
-   (except [] (print (.format "hycc: error: failed to compile file: {}" module)))
+   (except [] (print (+ "hycc: error: failed to compile file: " module)))
    (finally (rmtree temp-dir))))
