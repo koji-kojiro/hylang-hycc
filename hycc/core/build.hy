@@ -6,8 +6,7 @@
         [hycc.core.translate [to-python]])
 
 (defn print-and-exit [msg]
-  (print "error:" msg)
-  (sys.exit))
+  (sys.exit (+ "hycc: error: " msg)))
 
 (defn build-executable [filepath]
   (cython-build filepath))
@@ -15,18 +14,27 @@
 (defn build-shared-library [filepath]
   (cythonize-main [(str filepath) (str "--inplace") (str "--quiet")])
   (setv dirpath (os.path.dirname filepath))
-  (last (sorted (list-comp (os.path.join dirpath x) [x (os.listdir dirpath)])
+  (last (sorted (filter
+                 os.path.isfile
+                 (list-comp (os.path.join dirpath x)
+                            [x (os.listdir dirpath)]))
                 :key os.path.getatime)))
 
 (defn do-quiet [func &rest args]
-  (with [null (open os.devnull "w")]
-        (setv stderr sys.stderr
-              stdout sys.stdout
-              sys.stderr null
-              sys.stdout null
-              ret (apply func args))
-        (setv sys.stderr stderr
-              sys.stdout stdout))
+  (try
+   (with [null (open os.devnull "w")]
+         (setv stderr sys.stderr
+               stdout sys.stdout
+               sys.stderr null
+               sys.stdout null
+               ret (apply func args))
+         (setv sys.stderr stderr
+               sys.stdout stdout))
+   (except []
+     (do
+      (setv sys.stderr stderr
+            sys.stdout stdout)
+      (print-and-exit "compile error"))))
   ret)
 
 (defn mkcopy [module-dir filepath]
@@ -42,8 +50,9 @@
   (print (.format "compiling: {}" module))
   (if-not (os.path.exists module)
           (print-and-exit (.format "file does not exist: {}" module)))
-  (if-not (= (last (os.path.splitext module)) ".hy")
-          (print-and-exit (.format "only `.hy` file is acceptable: {}" module)))
+  (setv ext (last (os.path.splitext module)))
+  (if-not (= ext  ".hy")
+          (print-and-exit (.format "invalid file type: {}" ext)))
 
   (setv temp-dir (mkdtemp))
 
@@ -62,18 +71,25 @@
 
   (try
    (setv pysrc (to-python module))
-   (except [] (print-and-exit (.format "cannot convert to python: {}" module))))
+   (except []
+     (do
+      (rmtree temp-dir)
+      (print-and-exit (.format "cannot convert to python: {}" module)))))
 
-  (with [fp (open py-filepath "w")]
-        (.write fp pysrc))
+  (try
+   (do
+    (with [fp (open py-filepath "w")]
+          (.write fp pysrc))
 
-  (setv build-func (if shared build-shared-library build-executable)
-        bin-filepath (do-quiet build-func py-filepath))
+    (setv build-func (if shared build-shared-library build-executable)
+          bin-filepath (do-quiet build-func py-filepath))
 
-  (if with-python
-    (mkcopy dest-dir py-filepath))
-  (setv c-filepath (.replace py-filepath ".py" ".c"))
-  (if with-c
-    (mkcopy dest-dir c-filepath))
-  (mkcopy dest-dir bin-filepath)
-  (rmtree temp-dir))
+    (if with-python
+      (mkcopy dest-dir py-filepath))
+    (setv c-filepath (.replace py-filepath ".py" ".c"))
+    (if with-c
+      (mkcopy dest-dir c-filepath))
+    (mkcopy dest-dir bin-filepath))
+   (except [] (print (.format "hycc: error: failed to compile file: {}" module)))
+   (finally
+    (rmtree temp-dir))))
