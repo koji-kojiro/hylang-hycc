@@ -27,13 +27,13 @@
                  :metavar "file"
                  :help "place the output into <file>")
   (.add_argument parser
-                 "--with-c"
+                 "--clang"
                  :action "store_true"
-                 :help "generate c code")
+                 :help "create c code; do not compile")
   (.add_argument parser
-                 "--with-python"
+                 "--python"
                  :action "store_true"
-                 :help "generate python code")
+                 :help "create python code; do not compile")
   (.add_argument parser
                  "--shared"
                  :action "store_true"
@@ -50,4 +50,4 @@
   (setv options (.parse-args parser argv))
   (for [module options.module]
     (build module (if options.o (.pop options.o 0))
-           options.shared options.with-c options.with-python)))
+           options.shared options.clang options.python)))

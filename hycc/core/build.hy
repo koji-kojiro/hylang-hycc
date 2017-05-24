@@ -43,9 +43,9 @@
   (print (.format "-> {}" dest-filepath)))
 
 (defn build [module &optional [output None]
-                              [shared False]
-                              [with-c False]
-                              [with-python False]]
+                              [shared? False]
+                              [clang? False]
+                              [python? False]]
 
   (print (.format "compiling: {}" module))
   (if-not (os.path.exists module)
@@ -81,15 +81,14 @@
     (with [fp (open py-filepath "w")]
           (.write fp pysrc))
 
-    (setv build-func (if shared build-shared-library build-executable)
-          bin-filepath (do-quiet build-func py-filepath))
-
-    (if with-python
-      (mkcopy dest-dir py-filepath))
-    (setv c-filepath (.replace py-filepath ".py" ".c"))
-    (if with-c
-      (mkcopy dest-dir c-filepath))
-    (mkcopy dest-dir bin-filepath))
+    (if python?
+      (mkcopy dest-dir py-filepath)
+      (do
+       (setv build-func (if shared? build-shared-library build-executable)
+             bin-filepath (do-quiet build-func py-filepath)
+             c-filepath (.replace py-filepath ".py" ".c"))
+       (if clang?
+         (mkcopy dest-dir c-filepath)
+         (mkcopy dest-dir bin-filepath)))))
    (except [] (print (.format "hycc: error: failed to compile file: {}" module)))
-   (finally
-    (rmtree temp-dir))))
+   (finally (rmtree temp-dir))))
