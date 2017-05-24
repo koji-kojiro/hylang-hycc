@@ -28,8 +28,8 @@ usage: hycc [options] module...
 
 options:
   -o <file>      place the output into <file>
-  --with-c       generate c code
-  --with-python  generate python code
+  --clang    create c code; do not compile
+  --python   create python code; do not compile
   --shared       create shared library
   --version      show program's version number and exit
   --help         show this help and exit
