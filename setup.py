@@ -13,7 +13,7 @@ config = {
     'description': 'HyCC - A static compiler for Hy',
     'long_description': 'HyCC - A static compiler for Hy',
     'license': 'MIT',
-    'version': '0.0.4',
+    'version': '0.1.0',
     'install_requires': ['Cython>=0.25.2', 'hy>=0.12.1'],
     'classifiers': [
         "Operating System :: POSIX",
@@ -30,7 +30,7 @@ config = {
         "Topic :: Software Development :: Code Generators",
         "Topic :: Software Development :: Compilers",
         "License :: OSI Approved :: MIT License",
-        "Development Status :: 3 - alpha",
+        "Development Status :: 4 - Beta",
     ],
     'packages': ['hycc', 'hycc.core'],
     'package_data': {
