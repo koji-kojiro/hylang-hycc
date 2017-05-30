@@ -21,18 +21,21 @@
     (if (isinstance item ast.ImportFrom)
       (do (setv (get node.body index)
                 (ast.parse (.format "import {} as _" item.module)))
-          (for [name (map (fn [item] item.name) item.names)]
-            (.insert node.body
-                     (+ index 1)
-                     (ast.Assign
-                      :targets [(ast.Name :id name :ctx (ast.Store))]
-                      :value (ast.Call
-                              :func (ast.Name :id "getattr" :ctx (ast.Load))
-                              :args [(ast.Name :id "_" :ctx (ast.Load))
-                                     (ast.Str name)]
-                              :keywords []
-                              :starargs None
-                              :kwargs None)))))
+          (for [name item.names]
+            (do
+             (setv dst-name (lif name.asname name.asname name.name)
+                   src-name name.name)
+             (.insert node.body
+                      (+ index 1)
+                      (ast.Assign
+                       :targets [(ast.Name :id dst-name :ctx (ast.Store))]
+                       :value (ast.Call
+                               :func (ast.Name :id "getattr" :ctx (ast.Load))
+                               :args [(ast.Name :id "_" :ctx (ast.Load))
+                                      (ast.Str src-name)]
+                               :keywords []
+                               :starargs None
+                               :kwargs None))))))
       (hasattr item "body")
       (fix-from-imports item))))
 
