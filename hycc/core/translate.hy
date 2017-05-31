@@ -4,7 +4,7 @@
         [astor.codegen [to-source]])
 
 (defn mangle [name]
-  (re.sub "[^a-zA-Z_.]"
+  (re.sub "[^a-zA-Z0-9_.]"
           (fn [matchobj](->> (ord (.group matchobj)) (.format "x{0:X}")))
           name))
 
@@ -60,7 +60,8 @@
     (cond [(isinstance item ast.Name) (setv item.id (mangle item.id))]
           [(isinstance item ast.FunctionDef) (setv item.name (mangle item.name))]
           [(isinstance item ast.ClassDef) (setv item.name (mangle item.name))]
-          [(isinstance item ast.alias) (setv item.name (mangle item.name))])))
+          [(isinstance item ast.alias) (do (lif item.asname (setv item.asname (mangle item.asname)))
+                                           (setv item.name (mangle item.name)))])))
 
 (defn add-imports [src]
   (+ "from __future__ import print_function\nimport hy\n" src))
