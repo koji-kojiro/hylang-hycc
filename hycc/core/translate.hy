@@ -4,7 +4,7 @@
         [astor.codegen [to-source]])
 
 (defn mangle [name]
-  (re.sub "[^a-zA-Z_.]"
+  (re.sub "[^a-zA-Z0-9_.]"
           (fn [matchobj](->> (ord (.group matchobj)) (.format "x{0:X}")))
           name))
 
@@ -18,7 +18,7 @@
 
 (defn fix-from-imports [node]
   (for [[index item] (enumerate node.body)]
-    (if (isinstance item ast.ImportFrom)
+    (if (instance? ast.ImportFrom item)
       (do (setv (get node.body index)
                 (ast.parse (.format "import {} as _" item.module)))
           (for [name item.names]
@@ -40,15 +40,15 @@
       (fix-from-imports item))))
 
 (defn fix-dot-access [node]
-  (if (isinstance node ast.Assign)
+  (if (instance? ast.Assign node)
     (do
      (fix-dot-access (first node.targets))
-     (if (isinstance (first node.targets) ast.Attribute)
+     (if (instance? ast.Attribute (first node.targets))
        (setv node.value (attr-to-call (first node.targets) node.value)
              node.targets "_")))
     (for [[item field] (iter-node node)]
       (fix-dot-access item)
-      (if (isinstance item ast.Attribute)
+      (if (instance? ast.Attribute item)
         (if (hasattr node "_fields")
           (setattr node field (attr-to-call item))
           (for [[index _] (enumerate node)]
@@ -57,10 +57,11 @@
 
 (defn mangle-all [node]
   (for [item (ast.walk node)]
-    (cond [(isinstance item ast.Name) (setv item.id (mangle item.id))]
-          [(isinstance item ast.FunctionDef) (setv item.name (mangle item.name))]
-          [(isinstance item ast.ClassDef) (setv item.name (mangle item.name))]
-          [(isinstance item ast.alias) (setv item.name (mangle item.name))])))
+    (cond [(instance? ast.Name item) (setv item.id (mangle item.id))]
+          [(instance? ast.FunctionDef item) (setv item.name (mangle item.name))]
+          [(instance? ast.ClassDef item) (setv item.name (mangle item.name))]
+          [(instance? ast.alias item) (do (lif item.asname (setv item.asname (mangle item.asname)))
+                                           (setv item.name (mangle item.name)))])))
 
 (defn add-imports [src]
   (+ "from __future__ import print_function\nimport hy\n" src))
