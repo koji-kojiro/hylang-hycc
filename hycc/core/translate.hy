@@ -65,17 +65,19 @@
                (setv item.name (mangle item.name)))])))
 
 (defn fix-globals-and-locals [node]
+  (setv fixed? False)
   (for [item (ast.walk node)]
     (when (instance? ast.Call item)
       (when (instance? ast.Name item.func)
         (when (in item.func.id ["globals" "locals"])
+          (setv fixed? True)
           (.append item.args (copy.deepcopy item))
-          (setv item.func.id "hycc_dict"))))))
+          (setv item.func.id "hycc.core.shadow.hycc_dict")))))
+  fixed?)
 
-(defn add-imports [src]
+(defn add-imports [src add-shadow?]
   (+ "from __future__ import print_function\n"
-     "import hy\n"
-     "from hycc.core.shadow import hycc_dict\n"
+     (if add-shadow? "import hycc.core.shadow\n" "import hy\n")
      src))
 
 
@@ -86,5 +88,5 @@
   (fix-dot-access tree)
   (fix-from-imports tree)
   (mangle-all tree)
-  (fix-globals-and-locals tree)
-  (add-imports (to-source tree)))
+  (setv fixed? (fix-globals-and-locals tree))
+  (add-imports (to-source tree) fixed?))
