@@ -16,36 +16,20 @@
                 :formatter-class Formatter))
 
   (setv parser._optionals.title "options")
-
-  (.add_argument parser
-                 "module"
-                 :nargs "+"
-                 :help argparse.SUPPRESS)
-  (.add_argument parser
-                 "-o"
-                 :nargs "*"
-                 :metavar "file"
-                 :help "place the output into <file>")
-  (.add_argument parser
-                 "--clang"
-                 :action "store_true"
-                 :help "create c code; do not compile")
-  (.add_argument parser
-                 "--python"
-                 :action "store_true"
-                 :help "create python code; do not compile")
-  (.add_argument parser
-                 "--shared"
-                 :action "store_true"
-                 :help "create shared library")
-  (.add_argument parser
-                 "--version"
-                 :action "version"
-                 :version (+ "%(prog)s " --version--))
-  (.add_argument parser
-                 "--help"
-                 :action "help"
-                 :help "show this help and exit")
+  (doto parser
+        (.add-argument "module" :nargs "+" :help argparse.SUPPRESS)
+        (.add-argument "-o" :nargs "*" :metavar "file"
+                       :help "place the output into <file>")
+        (.add-argument "--clang" :action "store_true"
+                       :help "create c code; do not compile")
+        (.add-argument "--python" :action "store_true"
+                       :help "create python code; do not compile")
+        (.add-argument "--shared" :action "store_true"
+                       :help "create shared library")
+        (.add-argument "--version" :action "version"
+                       :version (+ "%(prog)s " --version--))
+        (.add-argument "--help" :action "help"
+                       :help "show this help and exit"))
 
   (setv options (.parse-args parser argv))
   (for [module options.module]
