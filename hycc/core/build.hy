@@ -28,8 +28,8 @@
                stdout sys.stdout
                sys.stderr null
                sys.stdout null
-               ret (apply func args))
-         (setv sys.stderr stderr
+               ret (apply func args)
+               sys.stderr stderr
                sys.stdout stdout)
          ret)
    (except []
