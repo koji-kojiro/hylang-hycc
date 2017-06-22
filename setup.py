@@ -14,7 +14,7 @@ config = {
     'long_description': 'HyCC - A static compiler for Hy',
     'license': 'MIT',
     'version': '0.1.2',
-    'install_requires': ['Cython>=0.25.2', 'hy>=0.12.1'],
+    'install_requires': ['Cython>=0.25.2', 'hy>=0.13.0'],
     'classifiers': [
         "Operating System :: POSIX",
         "Operating System :: MacOS",
