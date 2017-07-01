@@ -14,11 +14,12 @@
 (defn build-shared-library [filepath]
   (cythonize-main [(str filepath) (str "--inplace") (str "--quiet")])
   (setv dirpath (os.path.dirname filepath))
-  (last (sorted (filter
-                 os.path.isfile
-                 (list-comp (os.path.join dirpath x)
-                            [x (os.listdir dirpath)]))
-                :key os.path.getatime)))
+  (as-> (os.listdir dirpath) it
+        (list-comp (os.path.join dirpath x) [x it])
+        (filter os.path.isfile it)
+        (sorted it :key os.path.getatime)
+        (last it)))
+
 
 (defn do-quiet [func &rest args]
   (try
@@ -27,15 +28,15 @@
                stdout sys.stdout
                sys.stderr null
                sys.stdout null
-               ret (apply func args))
-         (setv sys.stderr stderr
-               sys.stdout stdout))
+               ret (apply func args)
+               sys.stderr stderr
+               sys.stdout stdout)
+         ret)
    (except []
      (do
       (setv sys.stderr stderr
             sys.stdout stdout)
-      (print-and-exit "compile error"))))
-  ret)
+      (print-and-exit "compile error")))))
 
 (defn mkcopy [module-dir filepath]
   (setv dest-filepath (os.path.join module-dir (os.path.basename filepath)))
@@ -67,7 +68,6 @@
           (setv dest-dir "./"))
   (if-not (os.path.exists dest-dir)
           (os.makedirs dest-dir))
-
 
   (try
    (setv pysrc (to-python module))

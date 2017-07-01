@@ -18,6 +18,9 @@
             [hy.compiler [hy-symbol-mangle]])
     (->> name hy-symbol-mangle mangle))
 
+  (defn --repr-- [self]
+    (.--repr-- self.--dict))
+
   (defn --getitem-- [self key]
     (try
      (get self.--dict key)
