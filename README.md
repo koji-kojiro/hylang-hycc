@@ -1,3 +1,6 @@
+# DEPRICATED
+There will be no updates upcoming. Now I use Common Lisp and python instead, because Hy has too frequent changes to use for daily tasks. I hope that Hy gets matured and I could go back to Hy someday.
+
 # WIP; USE AT YOUR OWN RISK
 
 # HyCC
